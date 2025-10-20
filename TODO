@@ -1,0 +1,25 @@
+Exercise 1: (20 marks)
+- Run relevant instances on the following:
+    - RLS
+    - (1 + 1) EA
+    - GA from Assignment 2
+- Provide a fixed budget plot showing mean and std. deviation.
+- Provide analysis of the results and compare the three algorithms.
+
+Exercise 2: (25 marks)
+- Run relevant instances on the following:
+    - RLS
+    - (1 + 1) EA
+    - GA from Assignment 2
+- Define the multi-objective formulation.
+- Implement the multi-objective fitness function.
+- Implement the GSEMO algorithm.
+
+- Provide a fixed budget plot showing mean and std. deviation.
+- Provide analysis of the results and compare the four algorithms.
+
+- Test GSEMO algorithm on PackWhileTravel instance.
+- Provide a fixed budget plot showing mean and std. deviation.
+- Provide analysis of the results and compare the four algorithms.
+
+- Provide for each problem a plot showing trade-off of the first of the 30 runs.
