@@ -24,9 +24,7 @@ Exercise 2: (25 marks)
 
 - Provide for each problem a plot showing trade-off of the first of the 30 runs.
 
-Tasks
-
-Exercise 3: (45 marks)
+Exercise 3: (40 marks) - Riley
 - Design and implement a single-objective evolutionary algorithm
 	- Describe design choices
 - Design and implement a multi-objective evolutionary algorithm
