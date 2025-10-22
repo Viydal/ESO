@@ -2,8 +2,6 @@ from ioh import get_problem, ProblemType, ProblemClass, logger
 import sys
 import numpy as np
 import optimisationAlgorithms
-from mmas import mmas, mmasStar
-from ACO import ACO
 
 def random_search(func, iterations, budget = None) -> tuple[float, list[int]]:
     # budget of each run: 50n^2
@@ -53,7 +51,5 @@ if __name__ == '__main__':
     for problem in problems:
         print(f"Problem {problem.meta_data.problem_id}: {problem.meta_data.name}\n")
         problem.attach_logger(l)
-        aco = ACO(problem=problem, population_size=50, generation_count=100000)
         budget = 100000
-        print(f"found sol: {aco.run()} | sol optimum: {problem.optimum.y} | mmas sol: {mmasStar(problem, budget)[0]}\n") #,random_search(problem,budget)[0])
         problem.reset()

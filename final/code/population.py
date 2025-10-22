@@ -10,6 +10,7 @@ class Population:
     # Initialise a list of individuals as a population
     def __init__(self, size, n, problem):
         self.individuals = [Individual(n) for _ in range(size)]
+        self.size = size
         for ind in self.individuals:
             ind.evaluate(problem)
 
@@ -56,7 +57,6 @@ class Population:
         parent2: Individual = self.tournament_Selection(k)
         return parent1, parent2
     
-    
     def uniform_Crossover(self, parent1: Individual, parent2) -> tuple[Individual, Individual]:
         length: int = len(parent1.chromosome)
         mask: list[int] = list(np.random.randint(0, 2, size=length))
@@ -67,6 +67,58 @@ class Population:
                 child1.chromosome[i] = parent2.chromosome[i]
                 child2.chromosome[i] = parent1.chromosome[i]
         return child1, child2
+    
+    def pareto_tournament_selection(self, k=3):
+        candidates = random.sample(self.individuals, k)
+        winner = candidates[0]
+        for individual in candidates:
+            if (self.dominates(individual, winner)):
+                winner = individual
+            elif not self.dominates(winner, individual):
+                # Neither dominates the other
+                winner = random.choice([winner, individual])
         
+        return winner
 
+    def dominates(self, individual1: Individual, individual2: Individual):
+        if individual1.fitness < individual2.fitness:
+            return False
+        elif individual1.cost > individual2.cost:
+            return False
+        
+        if individual1.fitness > individual2.fitness:
+            return True
+        elif individual1.cost < individual2.cost:
+            return True
+        
+        return False
+    
+    def sort_and_clean(self):
+        new_population = []
 
+        for individual in self.individuals:
+            dominated = False
+            for other in self.individuals:
+                if other is not individual and self.dominates(other, individual):
+                    dominated = True
+                    break
+            if not dominated:
+                new_population.append(individual)
+
+        # Too many
+        if len(new_population) > self.size:
+            new_population.sort(key=lambda x: x.fitness, reverse=True)
+            new_population = new_population[:self.size]
+        
+        # Too few
+        if len(new_population) < self.size:
+            dominated = []
+            for individual in self.individuals:
+                if individual not in new_population:
+                    dominated.append(individual)
+
+            dominated.sort(key=lambda x: (x.fitness, -x.cost), reverse=True)
+            required = self.size - len(new_population)
+            new_population.extend(dominated[:required])
+        
+        self.individuals = new_population

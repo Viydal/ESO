@@ -13,10 +13,12 @@ class Individual:
         else:
             self.chromosome = chromosome
         self.fitness = -math.inf
+        self.cost = -math.inf
 
     def evaluate(self, problem: ProblemType):
         self.fitness = problem(self.chromosome)
-        return self.fitness
+        self.cost = sum(self.chromosome)
+        return self.fitness, self.cost
     
     # Flip a single random bit
     def singleRandomMutation(self):
