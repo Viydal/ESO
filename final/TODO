@@ -1,10 +1,10 @@
 Exercise 1: (20 marks)
 - Run relevant instances on the following:
-    - RLS
-    - (1 + 1) EA
-    - GA from Assignment 2
-- Provide a fixed budget plot showing mean and std. deviation.
-- Provide analysis of the results and compare the three algorithms.
+    - RLS - DONE
+    - (1 + 1) EA - DONE
+    - GA from Assignment 2 - DONE
+- Provide a fixed budget plot showing mean and std. deviation. - DONE
+- Provide analysis of the results and compare the three algorithms. - DONE
 
 Exercise 2: (25 marks)
 - Run relevant instances on the following:
