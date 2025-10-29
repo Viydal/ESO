@@ -107,7 +107,9 @@ class Population:
 
         # Too many
         if len(new_population) > self.size:
-            new_population.sort(key=lambda x: x.fitness, reverse=True)
+            crowding_distances = self.calculate_crowding_distance(new_population)
+
+            new_population.sort(key=lambda x: crowding_distances[x], reverse=True)
             new_population = new_population[:self.size]
         
         # Too few
@@ -122,3 +124,51 @@ class Population:
             new_population.extend(dominated[:required])
         
         self.individuals = new_population
+
+    def calculate_crowding_distance(self, individuals: list[Individual]):
+        if len(individuals) <= 2:
+            result = {}
+            for individual in individuals:
+                result[individual] = float('inf')
+            return result
+            
+        objectives = []
+        for individual in individuals:
+            fitness_value = individual.fitness
+            cost_value = -individual.cost
+            objectives.append([fitness_value, cost_value])
+        
+        objectives = np.array(objectives)
+        n = len(individuals)
+
+        distances = np.zeros(n)
+
+        for obj_idx in range(2):
+            sorted_indices = np.argsort(objectives[:, obj_idx])
+
+            obj_values = objectives[sorted_indices, obj_idx]
+
+            distances[sorted_indices[0]] = float('inf')
+            distances[sorted_indices[-1]] = float('inf')
+
+            obj_range = obj_values[-1] - obj_values[0]
+
+            if obj_range == 0:
+                continue
+
+            for i in range(1, n - 1):
+                individual_index = sorted_indices[i]
+
+                next_value = obj_values[i + 1]
+                prev_value = obj_values[i - 1]
+
+                distance_contribution = (next_value - prev_value) / obj_range
+                distances[individual_index] += distance_contribution
+        
+        result = {}
+        for i in range(n):
+            individual = individuals[i]
+            distance = distances[i]
+            result[individual] = distance
+        
+        return result

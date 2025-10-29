@@ -8,8 +8,8 @@ import random
 class MultiObjective:
 
     # Multi-objective evolutionary algorithm with island model
-    @staticmethod
-    def evolution(problem: ProblemType, pop_size: int = 10, generation_count: int = 10000) -> list[Individual]:
+    # @staticmethod
+    def evolution(self, problem: ProblemType, pop_size: int = 10, generation_count: int = 10000) -> list[Individual]:
         n = problem.meta_data.n_variables
 
         # Create two seperate islands following the island model
@@ -52,19 +52,61 @@ class MultiObjective:
             # Perform migration between islands
             if generation % 250 == 0 and generation != 0:
                 # Print current best fitness and cost
-                best_fitness_pop1 = max(ind.fitness for ind in pop1.individuals)
-                best_cost_pop1 = min(ind.cost for ind in pop1.individuals)
+                # best_fitness_pop1 = max(ind.fitness for ind in pop1.individuals)
+                # best_cost_pop1 = min(ind.cost for ind in pop1.individuals)
 
-                best_fitness_pop2 = max(ind.fitness for ind in pop2.individuals)
-                best_cost_pop2 = min(ind.cost for ind in pop2.individuals)
+                # best_fitness_pop2 = max(ind.fitness for ind in pop2.individuals)
+                # best_cost_pop2 = min(ind.cost for ind in pop2.individuals)
 
-                print(f"Gen {generation}: Pop1 -> Fitness: {best_fitness_pop1}, Cost: {best_cost_pop1}")
-                print(f"Gen {generation}: Pop2 -> Fitness: {best_fitness_pop2}, Cost: {best_cost_pop2}")
+                # print(f"Gen {generation}: Pop1 -> Fitness: {best_fitness_pop1}, Cost: {best_cost_pop1}")
+                # print(f"Gen {generation}: Pop2 -> Fitness: {best_fitness_pop2}, Cost: {best_cost_pop2}")
                 
                 index1 = random.randint(0, pop1_size - 1)
                 index2 = random.randint(0, pop2_size - 1)
 
                 pop1.individuals[index1], pop2.individuals[index2] = pop2.individuals[index2], pop1.individuals[index1]
 
-                
-            
+                print(f"Generation {generation} complete.")
+
+        combined_population = pop1.individuals + pop2.individuals
+        return self.get_pareto_front(combined_population)
+    
+    def get_pareto_front(self, population: list[Individual]):
+        valid_population = []
+        for individual in population:
+            if individual.cost != 0:
+                valid_population.append(individual)
+
+        pareto_front = []
+        for ind in valid_population:
+            dominated = False
+            for other in valid_population:
+                if (other != ind and self.dominates(other, ind)):
+                    dominated = True
+                    break
+            if not dominated:
+                pareto_front.append(ind)
+
+        unique_front = []
+        seen = set()
+        for individual in pareto_front:
+            key = (individual.fitness, individual.cost)
+            if key not in seen:
+                unique_front.append(individual)
+                seen.add(key)
+
+        unique_front.sort(key=lambda x: x.cost)
+        return unique_front
+    
+    def dominates(self, individual1: Individual, individual2: Individual):
+        if individual1.fitness < individual2.fitness:
+            return False
+        elif individual1.cost > individual2.cost:
+            return False
+        
+        if individual1.fitness > individual2.fitness:
+            return True
+        elif individual1.cost < individual2.cost:
+            return True
+        
+        return False
