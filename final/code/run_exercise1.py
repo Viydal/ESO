@@ -12,6 +12,7 @@ import ioh
 
 from optimisationAlgorithms import ea11, RLS
 from genetic_algorithm import run_ga
+from gsemo_runner import run_gsemo
 
 # ============================================================================
 # CONFIGURATION
@@ -19,7 +20,7 @@ from genetic_algorithm import run_ga
 N_RUNS = 30
 BUDGET = 10_000
 ROOT = "data"
-FOLDER = "exercise1"
+FOLDER = "exercise2"
 RESULTS_FILE = "results_summary.csv"
 
 PROBLEM_IDS = {
@@ -32,6 +33,7 @@ ALGORITHMS = {
     "RLS": RLS,
     "EA11": ea11,
     "GA": run_ga,
+    "GSEMO": run_gsemo
 }
 
 # ============================================================================
