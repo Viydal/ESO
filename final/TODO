@@ -6,21 +6,21 @@ Exercise 1: (20 marks)
 - Provide a fixed budget plot showing mean and std. deviation. - DONE
 - Provide analysis of the results and compare the three algorithms. - DONE
 
-Exercise 2: (25 marks)
-- Run relevant instances on the following:
+Exercise 2: (25 marks) - Rory
+- Run relevant instances on the following:✅
     - RLS
     - (1 + 1) EA
     - GA from Assignment 2
 - Define the multi-objective formulation.
 - Implement the multi-objective fitness function.
-- Implement the GSEMO algorithm.
+- Implement the GSEMO algorithm.✅
 
-- Provide a fixed budget plot showing mean and std. deviation.
-- Provide analysis of the results and compare the four algorithms.
+- Provide a fixed budget plot showing mean and std. deviation. ✅
+- Provide analysis of the results and compare the four algorithms. ✅
 
-- Test GSEMO algorithm on PackWhileTravel instance.
-- Provide a fixed budget plot showing mean and std. deviation.
-- Provide analysis of the results and compare the four algorithms.
+- Test GSEMO algorithm on PackWhileTravel instance.✅
+- Provide a fixed budget plot showing mean and std. deviation.✅
+- Provide analysis of the results and compare the four algorithms.✅
 
 - Provide for each problem a plot showing trade-off of the first of the 30 runs.
 

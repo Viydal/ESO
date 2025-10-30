@@ -1,6 +1,6 @@
 # plot_exercise1.py
 """
-Generate fixed-budget plots from collected data
+Generate fixed-budget plots from collected data, including GSEMO
 """
 
 import os
@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-DATA_FILE = "data/exercise1/results_summary.csv"
-OUTPUT_FOLDER = "final/doc/exercise1"
+DATA_FILE = "data/exercise2/results_summary.csv"
+OUTPUT_FOLDER = "final/doc/exercise2"
 
 PROBLEM_NAMES = {
     2100: "MaxCoverage-2100", 2101: "MaxCoverage-2101",
@@ -19,6 +19,7 @@ PROBLEM_NAMES = {
     2300: "PackWhileTravel-2300", 2301: "PackWhileTravel-2301",
     2302: "PackWhileTravel-2302",
 }
+
 def create_plot(df, problem_id):
     """Create fixed-budget plot for one problem"""
     plt.figure(figsize=(10, 6))
@@ -26,7 +27,12 @@ def create_plot(df, problem_id):
     problem_data = df[df['problem_id'] == problem_id]
     algorithms = problem_data['algorithm'].unique()
     
-    colors = {'RLS': 'blue', 'EA11': 'red', 'GA': 'green'}
+    colors = {
+        'RLS': 'blue',
+        'EA11': 'red',
+        'GA': 'green',
+        'GSEMO': 'purple'  # added GSEMO color
+    }
     
     for alg in algorithms:
         alg_data = problem_data[problem_data['algorithm'] == alg]
@@ -40,7 +46,7 @@ def create_plot(df, problem_id):
         # Plot
         plt.plot(evals, mean, label=alg, color=colors.get(alg, 'black'), linewidth=2)
         plt.fill_between(evals, mean - std, mean + std, 
-                        color=colors.get(alg, 'black'), alpha=0.2)
+                         color=colors.get(alg, 'black'), alpha=0.2)
     
     plt.xlabel('Function Evaluations', fontsize=12)
     plt.ylabel('Fitness Value', fontsize=12)
@@ -59,7 +65,7 @@ def create_plot(df, problem_id):
 
 def main():
     print("=" * 70)
-    print("Generating Fixed-Budget Plots")
+    print("Generating Fixed-Budget Plots including GSEMO")
     print("=" * 70)
     
     # Load data
