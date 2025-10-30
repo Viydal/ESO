@@ -3,7 +3,7 @@ from ioh import get_problem, ProblemType, ProblemClass, logger
 
 if __name__ == "__main__":
     problems = []
-    instanceIDs = [2300, 2301, 2302]
+    instanceIDs = [2100, 2101, 2102, 2103, 2200, 2201, 2202, 2203, 2300, 2301, 2302]
 
     for id in instanceIDs:
         problems.append(get_problem(fid = id, problem_class = ProblemClass.GRAPH))
