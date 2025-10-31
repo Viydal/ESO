@@ -5,7 +5,15 @@ from individual import Individual
 import random
 
 class SingleObjective:
-
+"""
+Design:
+Population based EA
+Tournament selection 
+Crossover + Mutation 
+Elitism
+Feasibility repair
+Track best ever
+"""
     def evolution(
         self, 
         problem: ProblemType, 
@@ -92,4 +100,5 @@ class SingleObjective:
         combined = parents + offspring
         combined.sort(key=lambda ind: ind.fitness, reverse=True)
         return combined[:pop_size]
+
 
