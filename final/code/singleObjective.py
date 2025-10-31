@@ -5,10 +5,6 @@ from individual import Individual
 import random
 
 class SingleObjective:
-    """
-    Single-objective EA for monotone submodular problems
-    with a uniform constraint, limited by evaluation budget.
-    """
 
     def evolution(
         self, 
@@ -78,7 +74,6 @@ class SingleObjective:
         return best_ever
 
     def _repair(self, individual: Individual, problem: ProblemType):
-        """Repair infeasible individuals by removing random active bits."""
         while individual.fitness < 0:
             ones_indices = [i for i, bit in enumerate(individual.chromosome) if bit == 1]
             if not ones_indices:
@@ -97,3 +92,4 @@ class SingleObjective:
         combined = parents + offspring
         combined.sort(key=lambda ind: ind.fitness, reverse=True)
         return combined[:pop_size]
+
