@@ -5,60 +5,80 @@ from individual import Individual
 import random
 
 class SingleObjective:
+    """
+    Single-objective EA for monotone submodular problems
+    with a uniform constraint, limited by evaluation budget.
+    """
 
     def evolution(
         self, 
         problem: ProblemType, 
         pop_size: int = 20,
-        generation_count: int = 10000,
+        eval_budget: int = 10000,
         tournament_size: int = 3,
         elitism_size: int = 2
     ) -> Individual:
-        
+       
         n = problem.meta_data.n_variables
         population = Population(pop_size, n, problem)
-        
+
+        evaluations = pop_size
+
         for ind in population.individuals:
             if ind.fitness < 0:
                 self._repair(ind, problem)
-        
+                evaluations += 1
+
         best_ever = population.getBest()
-        
-        for generation in range(generation_count):
+        generation = 0
+
+        while evaluations < eval_budget:
+            generation += 1
             offspring = []
-            for _ in range(pop_size // 2):
+
+            while len(offspring) < pop_size and evaluations < eval_budget:
+
                 parent1 = population.tournament_Selection(k=tournament_size)
                 parent2 = population.tournament_Selection(k=tournament_size)
-                
+
                 child1, child2 = population.performCrossover(parent1, parent2)
-                
+
                 child1.flipAllBitsMutation()
                 child2.flipAllBitsMutation()
-                
+
                 child1.evaluate(problem)
+                evaluations += 1
+                if evaluations >= eval_budget:
+                    offspring.append(child1)
+                    break
+
                 child2.evaluate(problem)
-                
+                evaluations += 1
+
                 if child1.fitness < 0:
                     self._repair(child1, problem)
+                    evaluations += 1
                 if child2.fitness < 0:
                     self._repair(child2, problem)
-                
+                    evaluations += 1
+
                 offspring.extend([child1, child2])
-            
+
             population.individuals = self._elitist_selection(
                 population.individuals, offspring, pop_size, elitism_size
             )
-            
+
             current_best = population.getBest()
             if current_best.fitness > best_ever.fitness:
                 best_ever = current_best
-            
-            if generation % 250 == 0:
-                print(f"Generation {generation}: Best = {best_ever.fitness:.2f}")
-        
+
+            if generation % 250 == 0 or evaluations >= eval_budget:
+                print(f"Generation {generation}, Evaluations {evaluations}: Best = {best_ever.fitness:.2f}")
+
         return best_ever
 
     def _repair(self, individual: Individual, problem: ProblemType):
+        """Repair infeasible individuals by removing random active bits."""
         while individual.fitness < 0:
             ones_indices = [i for i, bit in enumerate(individual.chromosome) if bit == 1]
             if not ones_indices:
