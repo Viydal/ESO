@@ -5,15 +5,15 @@ from individual import Individual
 import random
 
 class SingleObjective:
-"""
-Design:
-Population based EA
-Tournament selection 
-Crossover + Mutation 
-Elitism
-Feasibility repair
-Track best ever
-"""
+    """
+    Design:
+    Population based EA
+    Tournament selection 
+    Crossover + Mutation 
+    Elitism
+    Feasibility repair
+    Track best ever
+    """
     def evolution(
         self, 
         problem: ProblemType, 

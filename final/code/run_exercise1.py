@@ -66,11 +66,11 @@ collector = DataCollector()
 # ALGORITHM WRAPPER WITH TRACKING
 # ============================================================================
 
-def run_with_tracking(alg_fn, problem, budget, alg_name, problem_id, run_id):
+def run_with_tracking(alg_fn, problem, budget, alg_name, problem_id, run_id,collecto):
     """
     Run algorithm and track progress at specific evaluation points
     """
-    tracking_points = [100, 200, 500, 1000, 2000, 3000, 5000, 7000, 10000]
+    tracking_points = [100, 200, 500, 1000, 2000, 3000, 5000, 7000, 10000, 20000, 30000, 50000, 70000, 100000]
     
     # Wrapper to track evaluations
     class TrackedProblem:
@@ -98,7 +98,7 @@ def run_with_tracking(alg_fn, problem, budget, alg_name, problem_id, run_id):
             # Record at tracking points
             if (self.track_idx < len(tracking_points) and 
                 self.eval_count >= tracking_points[self.track_idx]):
-                collector.record(alg_name, problem_id, run_id, 
+                collecto.record(alg_name, problem_id, run_id, 
                                self.eval_count, self.best_fitness)
                 self.track_idx += 1
             
@@ -119,7 +119,7 @@ def run_with_tracking(alg_fn, problem, budget, alg_name, problem_id, run_id):
     
     # Record final if not already recorded
     if tracked_prob.track_idx < len(tracking_points):
-        collector.record(alg_name, problem_id, run_id, budget, tracked_prob.best_fitness)
+        collecto.record(alg_name, problem_id, run_id, budget, tracked_prob.best_fitness)
     
     return tracked_prob.best_fitness
 
@@ -158,7 +158,7 @@ def main():
                     np.random.seed(seed)
                     
                     problem = ioh.get_problem(problem_id, problem_class=ioh.ProblemClass.GRAPH)
-                    fitness = run_with_tracking(alg_fn, problem, BUDGET, alg_name, problem_id, run_id)
+                    fitness = run_with_tracking(alg_fn, problem, BUDGET, alg_name, problem_id, run_id,collector)
                     results.append(fitness)
                 
                 mean = np.mean(results)
