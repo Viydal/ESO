@@ -94,36 +94,52 @@ class Population:
         return False
     
     def sort_and_clean(self):
+        fronts = self.pareto_fronts(self.individuals)
+
         new_population = []
 
-        for individual in self.individuals:
-            dominated = False
-            for other in self.individuals:
-                if other is not individual and self.dominates(other, individual):
-                    dominated = True
-                    break
-            if not dominated:
-                new_population.append(individual)
+        for front in fronts:
+            if len(front) + len(new_population) <= self.size:
+                new_population.extend(front)
+            else:
+                remaining_spots = self.size - len(new_population)
 
-        # Too many
-        if len(new_population) > self.size:
-            crowding_distances = self.calculate_crowding_distance(new_population)
+                if remaining_spots > 0:
+                    crowding_distances = self.calculate_crowding_distance(front)
+                    front_sorted = sorted(front, key=lambda x: crowding_distances[x], reverse=True)
+                    new_population.extend(front_sorted[:remaining_spots])
+            
+                break
 
-            new_population.sort(key=lambda x: crowding_distances[x], reverse=True)
-            new_population = new_population[:self.size]
-        
-        # Too few
-        if len(new_population) < self.size:
-            dominated = []
-            for individual in self.individuals:
-                if individual not in new_population:
-                    dominated.append(individual)
-
-            dominated.sort(key=lambda x: (x.fitness, -x.cost), reverse=True)
-            required = self.size - len(new_population)
-            new_population.extend(dominated[:required])
-        
         self.individuals = new_population
+
+    def pareto_fronts(self, individuals: list[Individual]):
+        fronts = []
+        remaining = individuals.copy()
+
+        while (remaining):
+            to_remove = []
+            next_front = []
+
+            for individual in remaining:
+                dominated = False
+                for other in remaining:
+                    if other is not individual and self.dominates(other, individual):
+                        dominated = True
+                        break
+                if not dominated:
+                    next_front.append(individual)
+                    to_remove.append(individual)
+            
+            if not next_front:
+                break
+
+            fronts.append(next_front)
+
+            for individual in to_remove:
+                remaining.remove(individual)
+
+        return fronts
 
     def calculate_crowding_distance(self, individuals: list[Individual]):
         if len(individuals) <= 2:

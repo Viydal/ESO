@@ -87,8 +87,8 @@ class Individual:
     # Flip each bit with prob 1/n (in-place) and RETURN self for chaining
     def flipAllBitsMutation(self) -> "Individual":
         n = len(self.chromosome)
-        # Use numpy RNG consistently if you like; just be aware of seeding
+
         for i in range(n):
             if np.random.rand() < 1.0 / n:
                 self.chromosome[i] = 1 - self.chromosome[i]
-        return self  # <-- IMPORTANT
+        return self
