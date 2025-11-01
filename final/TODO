@@ -27,8 +27,8 @@ Exercise 2: (25 marks) - Rory
 Exercise 3: (40 marks) - Riley
 - Design and implement a single-objective evolutionary algorithm
 	- Describe design choices
-- Design and implement a multi-objective evolutionary algorithm
-	- Describe design choices
+- Design and implement a multi-objective evolutionary algorithm✅
+	- Describe design choices✅
 - Run relevant instances on the following:
 	- Single-objective
   	- Multi-objective
