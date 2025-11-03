@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-DATA_FILE = "data/exercise2/results_summary.csv"
-OUTPUT_FOLDER = "final/doc/exercise2"
+DATA_FILE = "data/exercise3/results_summary.csv"
+OUTPUT_FOLDER = "final/doc/exercise3"
 
 PROBLEM_NAMES = {
     2100: "MaxCoverage-2100", 2101: "MaxCoverage-2101",
@@ -31,7 +31,9 @@ def create_plot(df, problem_id):
         'RLS': 'blue',
         'EA11': 'red',
         'GA': 'green',
-        'GSEMO': 'purple'  # added GSEMO color
+        'GSEMO': 'purple',
+        "MULTI": 'black',
+        "SINGLE": 'yellow'
     }
     
     for alg in algorithms:
