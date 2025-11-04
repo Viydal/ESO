@@ -27,11 +27,6 @@ class SingleObjective:
 
         evaluations = pop_size
 
-        # for ind in population.individuals:
-        #     if ind.fitness < 0:
-        #         self._repair(ind, problem)
-        #         evaluations += 1
-
         best_ever = population.getBest()
         generation = 0
 
@@ -58,13 +53,6 @@ class SingleObjective:
                 child2.evaluate(problem)
                 evaluations += 1
 
-                # if child1.fitness < 0:
-                #     self._repair(child1, problem)
-                #     evaluations += 1
-                # if child2.fitness < 0:
-                #     self._repair(child2, problem)
-                #     evaluations += 1
-
                 offspring.extend([child1, child2])
 
             population.individuals = self._elitist_selection(
@@ -80,15 +68,6 @@ class SingleObjective:
 
         return best_ever
 
-    # def _repair(self, individual: Individual, problem: ProblemType):
-    #     while individual.fitness < 0:
-    #         ones_indices = [i for i, bit in enumerate(individual.chromosome) if bit == 1]
-    #         if not ones_indices:
-    #             break
-    #         idx = random.choice(ones_indices)
-    #         individual.chromosome[idx] = 0
-    #         individual.evaluate(problem)
-
     def _elitist_selection(
         self, 
         parents: list[Individual], 
@@ -99,5 +78,6 @@ class SingleObjective:
         combined = parents + offspring
         combined.sort(key=lambda ind: ind.fitness, reverse=True)
         return combined[:pop_size]
+
 
 
