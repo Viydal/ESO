@@ -19,20 +19,24 @@ if __name__ == "__main__":
     else:
         alg = algos[0]
     
+    if len(sys.argv) > 2:
+        pro = problems[int(sys.argv[2])]
+    else:
+        pro = problems[0]
+    
     collector = DataCollector()
 
-    for pro in problems:
-        results = []
-        problem = get_problem(pro, problem_class=ProblemClass.GRAPH)
-        l = logger.Analyzer(root = "ESO/final/code/data/exercise4",
-        folder_name=f"exercise4-{alg[0]}-{pro}",
-        algorithm_name=str(alg[0]),
-        algorithm_info=str(pro))
-        problem.attach_logger(l)
-        for _ in range(30):
-            fitness = run_with_tracking(alg[1],problem,100000,alg[0],pro,_,collector)
-            results.append(fitness)
-            problem.reset()
-            print(f"problem: {pro}, index: {_}, algorithm: {alg[0]}")
-    collector.save(f"ESO/final/code/data/Exercise4-{alg[0]}.csv")
+    results = []
+    problem = get_problem(pro, problem_class=ProblemClass.GRAPH)
+    l = logger.Analyzer(root = "ESO/final/code/data/exercise4",
+    folder_name=f"exercise4-{alg[0]}-{pro}",
+    algorithm_name=str(alg[0]),
+    algorithm_info=str(pro))
+    problem.attach_logger(l)
+    for _ in range(30):
+        fitness = run_with_tracking(alg[1],problem,100000,alg[0],pro,_,collector)
+        results.append(fitness)
+        problem.reset()
+        print(f"problem: {pro}, index: {_}, algorithm: {alg[0]}")
+    collector.save(f"ESO/final/code/data/Exercise4-{alg[0]}-{pro}.csv")
             
