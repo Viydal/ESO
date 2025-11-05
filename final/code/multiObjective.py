@@ -8,7 +8,6 @@ import random
 class MultiObjective:
 
     # Multi-objective evolutionary algorithm with island model
-    # @staticmethod
     def evolution(self, problem: ProblemType, pop_size: int = 10, evaluation_budget: int = 10000) -> list[Individual]:
         n = problem.meta_data.n_variables
 
@@ -66,7 +65,7 @@ class MultiObjective:
 
                 pop1.individuals[index1], pop2.individuals[index2] = pop2.individuals[index2], pop1.individuals[index1]
 
-                print(f"Generation {generations} complete - {evaluations} evaluations.")
+                # print(f"Generation {generations} complete - {evaluations} evaluations.")
             
             generations += 1
 

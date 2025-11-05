@@ -9,10 +9,13 @@ import random
 import numpy as np
 import pandas as pd
 import ioh
+import subprocess
 
 from optimisationAlgorithms import ea11, RLS
 from genetic_algorithm import run_ga
 from gsemo_runner import run_gsemo
+from multi_runner import run_multi
+from single_runner import run_single
 
 # ============================================================================
 # CONFIGURATION
@@ -20,7 +23,7 @@ from gsemo_runner import run_gsemo
 N_RUNS = 30
 BUDGET = 10_000
 ROOT = "data"
-FOLDER = "exercise2"
+FOLDER = "exercise3"
 RESULTS_FILE = "results_summary.csv"
 
 PROBLEM_IDS = {
@@ -33,7 +36,9 @@ ALGORITHMS = {
     "RLS": RLS,
     "EA11": ea11,
     "GA": run_ga,
-    "GSEMO": run_gsemo
+    "GSEMO": run_gsemo,
+    "MULTI": run_multi,
+    "SINGLE": run_single
 }
 
 # ============================================================================
@@ -158,7 +163,9 @@ def main():
                     np.random.seed(seed)
                     
                     problem = ioh.get_problem(problem_id, problem_class=ioh.ProblemClass.GRAPH)
+                    print(f"Running {alg_name}...", end="", flush=True)
                     fitness = run_with_tracking(alg_fn, problem, BUDGET, alg_name, problem_id, run_id,collector)
+                    print("done.", flush=True)
                     results.append(fitness)
                 
                 mean = np.mean(results)
@@ -172,9 +179,10 @@ def main():
     collector.save(results_path)
     
     print(f"\n{'='*70}")
-    print("COMPLETE! Run plotting script next:")
-    print(f"  python3 plot_exercise1.py")
+    print("COMPLETE! Running plotting script next:")
     print("=" * 70)
+
+    subprocess.run(["python3", "plot_exercise1.py"])
 
 if __name__ == "__main__":
     main()
