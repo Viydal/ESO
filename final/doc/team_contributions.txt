@@ -1,0 +1,28 @@
+Riley
+
+- Define the multi-objective formulation (ex2)
+- Design and implement a multi-objective evolutionary algorithm (ex3)
+- Describe design choices document (ex3)
+- Run and plot relevant instances (ex2, ex3, ex4)
+- Provide analysis of the results (ex3)
+
+Rory
+
+- Run and plot relevant instances (ex2)
+- Implement the GSEMO algorithm (ex2)
+- Provide analysis of the results (ex2)
+
+Asad
+
+- Design and implement a single-objective evolutionary algorithm (ex3)
+- Describe design choices document (ex3)
+
+Brian
+
+- Run and plot relevant instances (ex1)
+- Provide analysis of the results (ex1)
+
+Bryce
+
+- Run and plot relevant instances (ex4)
+- Provide analysis of the results (ex4)
